@@ -91,3 +91,31 @@ pnpm dev
 ```
 
 Open `http://localhost:3000` in your browser.
+
+---
+
+## ☁️ Deployment (free tier)
+
+Backend on [Render](https://render.com/), frontend on [Vercel](https://vercel.com/) —
+both have no-credit-card-required free tiers and deploy straight from this repo.
+
+**Order matters**: deploy the backend first (the frontend needs its URL at build
+time), then come back and point the backend's CORS at the frontend's URL.
+
+1. **Render** → New → Blueprint → connect this repo. Render detects `render.yaml`
+   at the repo root and provisions the `ytrag-api` web service. When prompted, set
+   `GOOGLE_API_KEY`; leave `FRONTEND_ORIGIN` blank for now. Deploy, then note the
+   generated URL (e.g. `https://ytrag-api.onrender.com`).
+2. **Vercel** → Add New → Project → import this repo → set **Root Directory** to
+   `frontend` (required, since this is a monorepo) → add env var
+   `NEXT_PUBLIC_API_BASE_URL` = the Render URL from step 1 → Deploy. Note the
+   generated URL (e.g. `https://ytrag.vercel.app`).
+3. Back in **Render** → `ytrag-api` → Environment → set `FRONTEND_ORIGIN` = the
+   Vercel URL from step 2 (no trailing slash) → save, which redeploys the backend
+   with CORS now allowing the live frontend.
+
+**Trade-off to know**: chat sessions and the vector store are in-memory only (see
+`api/store.py`) — Render's free tier sleeps after 15 minutes of inactivity, and the
+next request cold-starts the service (~30–50s) with all prior sessions gone. Fine
+for personal/demo use; would need a database + persistent vector store to survive
+restarts in production.
