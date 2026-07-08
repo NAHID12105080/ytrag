@@ -1,6 +1,6 @@
 # 🎥 YouTube Summarizer (ytrag)
 
-A powerful AI-driven application that extracts transcripts from YouTube videos, translates them to English if necessary, generates concise structured notes with key topics, and allows you to interactively chat with the video's content using Retrieval-Augmented Generation (RAG). The UI is a Next.js app talking to a FastAPI backend; a Streamlit UI is kept around during the migration.
+A powerful AI-driven application that extracts transcripts from YouTube videos, translates them to English if necessary, generates concise structured notes with key topics, and allows you to interactively chat with the video's content using Retrieval-Augmented Generation (RAG). The UI is a Next.js app talking to a FastAPI backend.
 
 ---
 
@@ -16,8 +16,6 @@ A powerful AI-driven application that extracts transcripts from YouTube videos, 
 ## 🛠️ Tech Stack
 
 * **Frontend UI:** [Next.js](https://nextjs.org/) (App Router, TypeScript, Tailwind, shadcn/ui) — see `frontend/`.
-  A [Streamlit](https://streamlit.io/) UI (`app.py`) is kept around during the migration and still works
-  unmodified against the same backend logic.
 * **Backend API:** [FastAPI](https://fastapi.tiangolo.com/) (`api/`) — a thin HTTP layer over `core/`, the
   original business logic module. No RAG/AI logic lives in the API layer itself.
 * **AI Models:**
@@ -33,12 +31,12 @@ A powerful AI-driven application that extracts transcripts from YouTube videos, 
 ## 📂 Project Structure
 
 ```
-├── app.py                  # Streamlit UI (legacy, kept until the Next.js frontend has full parity)
 ├── core/                    # Business logic: transcript ingestion, translation, notes, RAG — no UI deps
 ├── api/                     # FastAPI app exposing core/ over HTTP for the Next.js frontend
 ├── frontend/                 # Next.js app (App Router) — presentation only, talks to api/ over HTTP
-├── requirements.txt          # Python dependencies (Streamlit + FastAPI + core/ deps)
+├── requirements.txt          # Python dependencies (FastAPI + core/ deps)
 ├── .env                     # Local environment secrets (API Keys)
+├── .env.example              # Documents required env vars
 └── .vscode/settings.json    # Workspace interpreter settings
 ```
 
@@ -80,8 +78,6 @@ cp .env.example .env.local   # points the frontend at http://localhost:8000 by d
 
 ## 🖥️ Running the Application
 
-### Option A — Next.js + FastAPI (current)
-
 Run both processes in separate terminals from the repository root:
 
 ```bash
@@ -95,12 +91,3 @@ pnpm dev
 ```
 
 Open `http://localhost:3000` in your browser.
-
-### Option B — Streamlit (legacy)
-
-```bash
-uv run streamlit run app.py
-# or: ./.venv/bin/streamlit run app.py
-```
-
-Open the local URL (usually `http://localhost:8501`).
