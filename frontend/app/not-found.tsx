@@ -12,7 +12,9 @@ export default function NotFound() {
         This page doesn&apos;t exist. It might have been moved, or the URL might be
         mistyped.
       </p>
-      <Button render={<Link href="/" />}>Back to home</Button>
+      <Button nativeButton={false} render={<Link href="/" />}>
+        Back to home
+      </Button>
     </div>
   );
 }

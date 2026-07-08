@@ -120,7 +120,13 @@ export default function SettingsPage() {
               </div>
             </>
           )}
-          <Button variant="outline" size="sm" render={<Link href="/settings/api-keys" />} className="mt-2 self-start">
+          <Button
+            variant="outline"
+            size="sm"
+            nativeButton={false}
+            render={<Link href="/settings/api-keys" />}
+            className="mt-2 self-start"
+          >
             View API key status
           </Button>
         </CardContent>

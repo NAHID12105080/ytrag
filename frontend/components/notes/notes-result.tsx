@@ -83,7 +83,12 @@ export function NotesResult({ videoSessionId }: { videoSessionId: string }) {
         </>
       )}
 
-      <Button variant="outline" render={<Link href="/chat" />} className="self-start">
+      <Button
+        variant="outline"
+        nativeButton={false}
+        render={<Link href="/chat" />}
+        className="self-start"
+      >
         Start another session
       </Button>
     </div>
